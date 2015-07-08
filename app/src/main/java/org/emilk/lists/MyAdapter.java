@@ -8,14 +8,16 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.List;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
  * Created by Emilio on 06/07/2015.
  */
-public class MyAdapter extends ArrayAdapter<String> {
-    private String[] Items;
+public class MyAdapter extends ArrayAdapter<Item> {
+    private List<Item> Items;
     private LayoutInflater inflater;
     @Bind(R.id.myTextView)
     TextView myTextView;
@@ -24,21 +26,30 @@ public class MyAdapter extends ArrayAdapter<String> {
     @Bind(R.id.myImgView)
     ImageView myImg;
 
-    public MyAdapter(Context context, int resource, String[] objects) {
+    public MyAdapter(Context context, int resource, List<Item> objects) {
         super(context, resource, objects);
-        inflater=LayoutInflater.from(context);
-        Items =objects;
+        inflater= LayoutInflater.from(context);
+        Items = objects;
 
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View viewItem = inflater.inflate(R.layout.item_list,parent,false);
-        ButterKnife.bind(this,viewItem);
+        View itemView = inflater.inflate(R.layout.item_list,parent,false);
+        ButterKnife.bind(this, itemView);
 
-        myTextView.setText(Items[position]);
+        setItem(getItem(position));
 
-        return viewItem;
+        return itemView;
     }
 
+
+    public void setItem(Item item){
+        myTextView.setText(item.getmName());
+        myDescription.setText(item.getmDescription());
+        myImg.setImageResource(item.getmDrawable());
+    }
 }
+
+
+
